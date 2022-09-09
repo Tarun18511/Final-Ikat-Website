@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet"  href="{% static 'css/registration.css' %}">
+    <link rel="stylesheet"  href="{% static 'css/style.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <title>Scene Detection</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    
+{#    Bootstrap 5 #}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navigation-wrap">
+            <div class="container">
+                <a class="navbar-brand" href="#"><img src={% static "others/logo.png" %} style="width: 220px; height:55px;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-stream navbar-toggler-icon"></i>
+        </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Log Out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+        {%if filePathName is None %}
+        <div class="container-fluid px-0 ">
+            <div class="container">
+                <div class="container food-type">
+                    <div class="row align-items-center">
+                        <div class="col-lg-5 col-md-12 text-sec mb-lg-0 mb-5">
+                            <h1>Team Gryffindor</h1>
+                            <h2>Our Approach </h2>
+                            <p>We have three pipelines :- Scene Detection , Feature Extraction and Segmentation of the objects inside the scene.</p>
+                            <ul class="list-unstyled py-3">
+                               <li>-> For  <span style="text-decoration: underline; font-weight: bold;">scene detection</span> we have extracted  <span style="text-decoration: underline; font-weight: bold;">five feature sets and clustered </span>them in as many categories as our dataset contains.For infrencing we  <span style="text-decoration: underline; font-weight: bold;">measure the distance of the features of the test image with each cluster centre.</span></li>
+                                <li>-> For  <span style="text-decoration: underline; font-weight: bold;">feature extraction </span>we used  <span style="text-decoration: underline; font-weight: bold;">VGG 16</span> as our backbone and extracted the features using the  <span style="text-decoration: underline; font-weight: bold;">fully convolutional layer and used super on inheriting </span>the extracted features from parent class to the child class.                                 </li>
+                                <li>-> For the  <span style="text-decoration: underline; font-weight: bold;">segmentation</span> part we are using  <span style="text-decoration: underline; font-weight: bold;">Resnet 50</span> as backbone which is having around  <span style="text-decoration: underline; font-weight: bold;">1000 classes , integrated with Canny Edge Detection for Contour line Extraction and OCR for text extraction.</span></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-7 col-md-12">
+                            <div class="card border-0">
+                                <img src={% static "others/approach.png" %} class="" height="400px" width="500px">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%endif%}
+        
+    <div class="about-section wrapper">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 col-md-12 mb-lg-0 mb-5">
+                    <div class="card border-0">
+                        {%if filePathName is not None%}
+                        <img src={{filePathName}} alt='imagename' class="" height="400px" width="500px">
+                        {%endif%}
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-12 text-sec">
+                    <h2>Upload Image </h2>
+                    <form method="post" enctype="multipart/form-data" action="">
+                        {% csrf_token %}
+                        <div class=""><label for="fname"></label> </div> <input name="filePath" type="file">
+                        <br>
+                    
+                        
+                        <input type="submit" value="Submit" ></div>
+                    
+
+                            {%if filePathName is not None%}
+                            {% comment %} <p>The classification of the image is {{predictedLabel}}</p> {% endcomment %}
+                            {% comment %} <img src={{filePathName}} alt='imagename' style=" height:400px; width:400px;"> {% endcomment %}
+                            {% comment %} {{filePathName}} {% endcomment %}
+                            
+                            <h4> -> The features extracted are  <span style=" font-weight: bold;">{{features}}</span></h4>
+                            <br>
+                            <h4> -> Scene belongs to the cluster number <span style="text-decoration: underline; font-weight: bold;">{{index}}</span></h4>
+                            <br>
+                            <h4> -> The minimum distance is <span style="text-decoration: underline; font-weight: bold;">{{minimum}}</span></h4>
+                            <br>
+                            <h4> -> The text extracted from the image is <span style="text-decoration: underline; font-weight: bold;">{{t}}</span></h4>
+
+                            <!-- {% for r in ri %}
+                            <img id="IMG" src="{{r.image.url}}" > 
+                            {% endfor %}
+
+                            {%endif%} -->
+
+                            <!-- <div class="explore-food wrapper">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="text-content text-center">
+                                                <h3>Results of Segmentation:-</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {%for r in ri%}
+                                    <div class="row pt-5">
+                                        <div class="col-lg-4 col-md-6 mb-lg-0 mb-5">
+                                            <div class="card">
+                                                <img src={{r.image.url}} class="" height="300px" width="300px">
+                                                <div class="pt-3">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {%endfor%}
+                                </div>
+                            </div> -->
+
+
+                            
+
+
+
+
+
+
+
+
+
+                            
+                    
+                        </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="explore-food wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="text-content text-center">
+                        <h3>Results of Segmentation:-</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row pt-5"></div>
+            {%for r in ri%}
+            
+                <div class="col-lg-4 col-md-6 mb-lg-0 mb-5">
+                    <div class="card">
+                        <img src={{r.image.url}} class="" height="300px" width="300px">
+                        <div class="pt-3">
+                        </div>
+                    </div>
+                </div>
+            
+            {%endfor%}
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
