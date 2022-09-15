@@ -22,7 +22,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navigation-wrap">
             <div class="container">
-                <a class="navbar-brand" href="#"><img src={% static "others/logo.png" %} style="width: 220px; height:55px;"></a>
+                <a class="navbar-brand" href="#"><img src={% static "others/tietlogo.jpg" %} style="width: 220px; height:55px;"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <i class="fas fa-stream navbar-toggler-icon"></i>
         </button>
@@ -30,6 +30,12 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/cropprediction">Crop Prediction</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/image">Plant Disease</a>
                         </li>
 
                         <li class="nav-item">
@@ -40,35 +46,11 @@
             </div>
         </nav>
     </header>
-        {%if filePathName is None %}
-        <div class="container-fluid px-0 ">
-            <div class="container">
-                <div class="container food-type">
-                    <div class="row align-items-center">
-                        <div class="col-lg-5 col-md-12 text-sec mb-lg-0 mb-5">
-                            <h1>Team Gryffindor</h1>
-                            <h2>Our Approach </h2>
-                            <p>We have three pipelines :- Scene Detection , Feature Extraction and Segmentation of the objects inside the scene.</p>
-                            <ul class="list-unstyled py-3">
-                               <li>-> For  <span style="text-decoration: underline; font-weight: bold;">scene detection</span> we have extracted  <span style="text-decoration: underline; font-weight: bold;">five feature sets and clustered </span>them in as many categories as our dataset contains.For infrencing we  <span style="text-decoration: underline; font-weight: bold;">measure the distance of the features of the test image with each cluster centre.</span></li>
-                                <li>-> For  <span style="text-decoration: underline; font-weight: bold;">feature extraction </span>we used  <span style="text-decoration: underline; font-weight: bold;">VGG 16</span> as our backbone and extracted the features using the  <span style="text-decoration: underline; font-weight: bold;">fully convolutional layer and used super on inheriting </span>the extracted features from parent class to the child class.                                 </li>
-                                <li>-> For the  <span style="text-decoration: underline; font-weight: bold;">segmentation</span> part we are using  <span style="text-decoration: underline; font-weight: bold;">Resnet 50</span> as backbone which is having around  <span style="text-decoration: underline; font-weight: bold;">1000 classes , integrated with Canny Edge Detection for Contour line Extraction and OCR for text extraction.</span></li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-7 col-md-12">
-                            <div class="card border-0">
-                                <img src={% static "others/approach.png" %} class="" height="400px" width="500px">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {%endif%}
-        
+    
     <div class="about-section wrapper">
         <div class="container">
             <div class="row align-items-center">
+                <h1>Plant Disease Detection</h1>
                 <div class="col-lg-7 col-md-12 mb-lg-0 mb-5">
                     <div class="card border-0">
                         {%if filePathName is not None%}
@@ -77,7 +59,7 @@
                     </div>
                 </div>
                 <div class="col-lg-5 col-md-12 text-sec">
-                    <h2>Upload Image </h2>
+                    <h2>Upload Image</h2>
                     <form method="post" enctype="multipart/form-data" action="">
                         {% csrf_token %}
                         <div class=""><label for="fname"></label> </div> <input name="filePath" type="file">
@@ -149,7 +131,7 @@
 
         </div>
     </div>
-    <div class="explore-food wrapper">
+    {% comment %} <div class="explore-food wrapper">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
@@ -172,7 +154,7 @@
             {%endfor%}
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
 
 </body>
 </html>

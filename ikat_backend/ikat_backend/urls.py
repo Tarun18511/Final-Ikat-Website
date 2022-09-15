@@ -18,7 +18,9 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf import settings
-
+admin.site.site_header  =  "Integrated Knowledge & Ai Technology admin"  
+admin.site.site_title  =  "Integrated Knowledge & Ai Technology site"
+admin.site.index_title  =  "Integrated Knowledge & Ai Technology Admin"
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('',include('ikat.urls'))

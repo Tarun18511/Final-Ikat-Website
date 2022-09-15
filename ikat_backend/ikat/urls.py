@@ -24,7 +24,9 @@ urlpatterns = [
     path("register",views.register,name="register"),
     path("image", views.index,name='image'),
     path("login",views.login,name="login"),
-    path("logout",views.logout,name="logout")
+    path("logout",views.logout,name="logout"),
+    path("cropprediction",views.cropprediction,name="cropprediction")
+
     
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

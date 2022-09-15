@@ -9,6 +9,16 @@ from .models import ResultImage
 
 import os
 
+#crop predictor imports
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import classification_report
+from sklearn import metrics
+from sklearn import tree
+import warnings
+warnings.filterwarnings('ignore')
 
 
 
@@ -60,6 +70,57 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('/')
+
+def cropprediction(request):
+    resultvalue=None
+    nitrogen=None
+    potassium=None
+    temperature=None
+    humidity=None
+    ph=None
+    rainfall=None 
+    #88, 52, 30, 40, 73, 5, 190
+    if request.method=='POST':
+        nitrogen=request.POST['nitrogen']
+        phosphorus=request.POST['phosphorus']
+        potassium=request.POST['potassium']
+        temperature=request.POST['temperature']
+        humidity=request.POST['humidity']
+        ph=request.POST['ph']
+        rainfall=request.POST['rainfall']
+        module_dir = os.path.dirname(__file__)   #get current directory
+        file_path = os.path.join(module_dir, 'Crop_recommendation.csv')
+        df=pd.read_csv(file_path)
+        df['label'].value_counts()
+        features = df[['N', 'P','K','temperature', 'humidity', 'ph', 'rainfall']]
+        target = df['label']
+        labels = df['label']
+        acc = []
+        model = []
+        from sklearn.model_selection import train_test_split
+        Xtrain, Xtest, Ytrain, Ytest = train_test_split(features,target,test_size = 0.2,random_state =2)
+        from sklearn.ensemble import RandomForestClassifier
+        RF = RandomForestClassifier(n_estimators=20, random_state=0)
+        RF.fit(Xtrain,Ytrain)
+        predicted_values = RF.predict(Xtest)
+        x = metrics.accuracy_score(Ytest, predicted_values)
+        acc.append(x)
+        model.append('RF')
+        print("RF's Accuracy is: ", x)
+        print(classification_report(Ytest,predicted_values))
+        data = np.array([[nitrogen,phosphorus,potassium,temperature,humidity,ph,rainfall]])
+        prediction = RF.predict(data)
+        resultvalue=prediction
+    context = {
+        'resultvalue':resultvalue,
+        'nitrogen':nitrogen,
+        'potassium':potassium,
+        'temperature':temperature,
+        'humidity':humidity,
+        'ph':ph,
+        'rainfall':rainfall
+    }
+    return render(request, 'cropprediction.html',context)
 
 def index(request):
     # filePathName=None

@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet"  href="{% static 'css/registration.css' %}">
+    <link rel="stylesheet"  href="{% static 'css/style.css' %}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <title>Crop Predictor</title>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    
+{#    Bootstrap 5 #}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navigation-wrap">
+            <div class="container">
+                <a class="navbar-brand" href="#"><img src={% static "others/tietlogo.jpg" %} style="width: 220px; height:55px;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="fas fa-stream navbar-toggler-icon"></i>
+        </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/cropprediction">Crop Prediction</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/image">Plant Disease</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Log Out</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    {%if resultvalue is None%}
+    <div class="container">
+        <div class="signup-content">
+            <div class="signup-form">
+                <h2 class="form-title">Fill the results obtained from sensors</h2>
+                <form method="POST" class="register-form" id="register-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="nitrogen"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text" name="nitrogen" placeholder="Nitrogen">
+                    </div>
+                    <div class="form-group">
+                        <label for="phosphorus"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text" name="phosphorus" placeholder="Phosphorous">
+                    </div>
+                    <div class="form-group">
+                        <label for="potassium"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text" name="potassium" placeholder="Potassium">
+                    </div>
+                    <div class="form-group">
+                        <label for="temperature"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text" name="temperature" placeholder="Temperature">
+                    </div>
+                    <div class="form-group">
+                        <label for="humidity"><i class="zmdi zmdi-email"></i></label>
+                        <input type="text" name="humidity" placeholder="Humidity">
+                    </div>
+                    <div class="form-group">
+                        <label for="ph"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="text" name="ph" id="pass" placeholder="Ph value"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="rainfall"><i class="zmdi zmdi-lock-outline"></i></label>
+                        <input type="text" name="rainfall" placeholder="Rainfall"><br>
+                    </div> 
+                    <div class="form-group form-button">
+                        <button type="submit" style="background-color: #008CBA;border: none;
+                        color: white;
+                        padding: 15px 32px;
+                        text-decoration: none;
+                        display: inline-block;
+                        font-size: 16px;">Get Predictions</button>
+                    </div>
+                </form>
+            </div>
+            <div class="signup-image">
+                <figure><img src={% static "others/farm1.jpeg" %} alt="sing up image"></figure>
+                <a href="/image" class="signup-image-link">Disease Detection</a>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+    {%if resultvalue is not None%}
+    <div class="container">
+    <h1>Crop Predictor</h1>
+    <h2 class="form-title"> -> The predicted crop is <span style=" font-weight: bold;">{{resultvalue}}</span></h2>
+    </div>
+    {%endif%}
+</body>
+</html>
