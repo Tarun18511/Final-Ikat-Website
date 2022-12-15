@@ -21,12 +21,12 @@ import warnings
 warnings.filterwarnings('ignore')
 
 #disease detection imports
-# import numpy as np
-# import pandas as pd
-# import tensorflow as tf
-# from tensorflow import keras
-# import os
-# from tensorflow.keras.preprocessing import image
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+from tensorflow import keras
+import os
+from tensorflow.keras.preprocessing import image
 
 def home(request):
     return render(request,'home.html')
@@ -175,16 +175,18 @@ def cropprediction(request):
     }
     return render(request, 'cropprediction.html',context)
 
-# def load_image(path):
-#     return image.load_img(path, target_size = (64, 64))
+def load_image(path):
+    return image.load_img(path, target_size = (64, 64))
 
-# def pass_image(path):
-#     disease_image = image.img_to_array(load_image(path))
-#     disease_image = np.array(disease_image) / 255.0
-#     return disease_image
+def pass_image(path):
+    disease_image = image.img_to_array(load_image(path))
+    disease_image = np.array(disease_image) / 255.0
+    return disease_image
 
 def index(request):
     filePathName=None
+    image=None
+    result=None
     if request.method == 'POST':
         print (request)
         print (request.POST.dict())
@@ -195,33 +197,36 @@ def index(request):
         # print(filePathName)
         image="."+filePathName
         print(image)
-    #### CAPSTONE WORK ######
 
-    # path = image
+        path =image
 
-    # new_image = pass_image(path)
 
-    # module_dir = os.path.dirname(__file__)  
-    # file_path = os.path.join(module_dir, 'my_model.h5')
+        new_image = pass_image(path)
 
-    # new_model = tf.keras.models.load_model('file_path')
+        module_dir = os.path.dirname(__file__)  
+        file_path = os.path.join(module_dir, 'my_model.h5')
 
-    # new_model.summary()
+        new_model = tf.keras.models.load_model(file_path)
 
-    # result = new_model.predict(new_image.reshape(1, 64, 64, 3))
+        new_model.summary()
 
-    # diseases = ['Pepper__bell___Bacterial_spot', 'Pepper__bell___healthy',
+        result = new_model.predict(new_image.reshape(1, 64, 64, 3))
 
-    #             'Potato___Early_blight', 'Potato___Late_blight',
-    #             'Potato___healthy', 'Tomato_Bacterial_spot',
-    #             'Tomato_Early_blight', 'Tomato_Late_blight', 'Tomato_Leaf_Mold',
-    #             'Tomato_Septoria_leaf_spot', 'Tomato_Spider_mites_Two_spotted_spider_mite',
-    #             'Tomato__Target_Spot', 'Tomato__Tomato_YellowLeaf__Curl_Virus',
-    #             'Tomato__Tomato_mosaic_virus', 'Tomato_healthy']
+        diseases = ['Pepper__bell___Bacterial_spot', 'Pepper__bell___healthy',
 
-    # result = list(result)
+                    'Potato___Early_blight', 'Potato___Late_blight',
+                    'Potato___healthy', 'Tomato_Bacterial_spot',
+                    'Tomato_Early_blight', 'Tomato_Late_blight', 'Tomato_Leaf_Mold',
+                    'Tomato_Septoria_leaf_spot', 'Tomato_Spider_mites_Two_spotted_spider_mite',
+                    'Tomato__Target_Spot', 'Tomato__Tomato_YellowLeaf__Curl_Virus',
+                    'Tomato__Tomato_mosaic_virus', 'Tomato_healthy']
 
-    # pos = result.index(max(result))
+        result = list(result)
 
-    # print(diseases[pos])
-    return render(request, 'index.html')
+        pos = result.index(max(result))
+
+        print(diseases[pos])
+    context = {
+    'result':result,
+    }
+    return render(request, 'index.html',context)
