@@ -53,7 +53,7 @@
                 <h2 class="form-title">Fill the results obtained from sensors</h2>
                 <form method="POST" class="register-form" id="register-form">
                     {% csrf_token %}
-                    <div class="form-group">
+                    {% comment %} <div class="form-group">
                         <label for="nitrogen"><i class="zmdi zmdi-account material-icons-name"></i></label>
                         <input type="text" name="nitrogen" placeholder="Nitrogen">
                     </div>
@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <label for="potassium"><i class="zmdi zmdi-account material-icons-name"></i></label>
                         <input type="text" name="potassium" placeholder="Potassium">
-                    </div>
+                    </div> {% endcomment %}
                     <div class="form-group">
                         <label for="temperature"><i class="zmdi zmdi-account material-icons-name"></i></label>
                         <input type="text" name="temperature" placeholder="Temperature">
