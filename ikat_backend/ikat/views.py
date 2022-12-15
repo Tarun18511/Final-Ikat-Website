@@ -226,6 +226,7 @@ def index(request):
         pos = result.index(max(result))
 
         print(diseases[pos])
+        result=diseases[pos]
     context = {
     'result':result,
     }

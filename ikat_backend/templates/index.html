@@ -59,6 +59,7 @@
                     </div>
                 </div>
                 <div class="col-lg-5 col-md-12 text-sec">
+                    {%if result is None%}
                     <h2>Upload Image</h2>
                     <form method="post" enctype="multipart/form-data" action="">
                         {% csrf_token %}
@@ -67,9 +68,12 @@
                     
                         
                         <input type="submit" value="Submit" ></div>
-                    
+                    </form>
+                    {%else%}
+                    <p class="form-title"> -> The disease detected is <span style=" font-weight: bold;">{{result}}</span></p>
+                    {%endif%}
 
-                            {%if filePathName is not None%}
+                            <!-- {%if filePathName is not None%}
                             {% comment %} <p>The classification of the image is {{predictedLabel}}</p> {% endcomment %}
                             {% comment %} <img src={{filePathName}} alt='imagename' style=" height:400px; width:400px;"> {% endcomment %}
                             {% comment %} {{filePathName}} {% endcomment %}
@@ -80,7 +84,7 @@
                             <br>
                             <h4> -> The minimum distance is <span style="text-decoration: underline; font-weight: bold;">{{minimum}}</span></h4>
                             <br>
-                            <h4> -> The text extracted from the image is <span style="text-decoration: underline; font-weight: bold;">{{t}}</span></h4>
+                            <h4> -> The text extracted from the image is <span style="text-decoration: underline; font-weight: bold;">{{t}}</span></h4> -->
 
                             <!-- {% for r in ri %}
                             <img id="IMG" src="{{r.image.url}}" > 
@@ -124,7 +128,7 @@
 
                             
                     
-                        </form>
+                        
 
                 </div>
             </div>
