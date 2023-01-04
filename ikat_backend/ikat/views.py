@@ -115,7 +115,8 @@ def cropprediction(request):
         print("RF's Accuracy is: ", x)
         print(classification_report(Ytest,predicted_values))
         ls=[0,2,-4,5,-10]
-        oglist=[32.603016, 65.3, 6.7, 140.91]
+        # oglist=[32.603016, 65.3, 6.7, 140.91]
+        oglist=[int(float(temperature)), int(float(humidity)), int(float(ph)), int(float(rainfall))]
         a=[]
         for i in ls:
             oglist[0]=oglist[0] + i
@@ -126,46 +127,49 @@ def cropprediction(request):
             prediction = RF.predict(data)
             a.append(prediction)
         # print(np.unique(a))
+        fruits=[]
+        fruits.append((np.unique(a)))
+        var=" "
+        var+=np.unique(a)
+        # resultvalue=prediction
+        resultvalue=var 
+        # ls=[0,2,-4,5,-10]
+        # oglist=[35, 70.3, 7.0, 150.9]
+        # a=[]
+        # for i in ls:
+        #     oglist[0]=oglist[0] + i
+        #     oglist[1]=oglist[1] - i
+        #     oglist[2]=oglist[2] - i/10
+        #     oglist[3]=oglist[3] + i*10
+        #     data = np.array([oglist])
+        #     prediction = RF.predict(data)
+        #     a.append(prediction)
+        # # print(np.unique(a))
 
-        ls=[0,2,-4,5,-10]
-        oglist=[35, 70.3, 7.0, 150.9]
-        a=[]
-        for i in ls:
-            oglist[0]=oglist[0] + i
-            oglist[1]=oglist[1] - i
-            oglist[2]=oglist[2] - i/10
-            oglist[3]=oglist[3] + i*10
-            data = np.array([oglist])
-            prediction = RF.predict(data)
-            a.append(prediction)
-        # print(np.unique(a))
+        # ls=[0,2,-4,5,-10]
+        # oglist=[21,28, 4, 130]
+        # a=[]
+        # for i in ls:
+        #     oglist[0]=oglist[0] + i
+        #     oglist[1]=oglist[1] - i
+        #     oglist[2]=oglist[2] - i/10
+        #     oglist[3]=oglist[3] + i*10
+        #     data = np.array([oglist])
+        #     prediction = RF.predict(data)
+        #     a.append(prediction)
+        # # print(np.unique(a))
 
-        ls=[0,2,-4,5,-10]
-        oglist=[21,28, 4, 130]
-        a=[]
-        for i in ls:
-            oglist[0]=oglist[0] + i
-            oglist[1]=oglist[1] - i
-            oglist[2]=oglist[2] - i/10
-            oglist[3]=oglist[3] + i*10
-            data = np.array([oglist])
-            prediction = RF.predict(data)
-            a.append(prediction)
-        # print(np.unique(a))
-
-        ls=[0,2,-4,5,-10]
-        oglist=[21, 82, 6, 202.93]
-        a=[]
-        for i in ls:
-            oglist[0]=oglist[0] + i
-            oglist[1]=oglist[1] - i
-            oglist[2]=oglist[2] - i/10
-            oglist[3]=oglist[3] + i*10
-            data = np.array([oglist])
-            prediction = RF.predict(data)
-            a.append(prediction)
-        # print(np.unique(a))
-        resultvalue=prediction
+        # ls=[0,2,-4,5,-10]
+        # oglist=[21, 82, 6, 202.93]
+        # a=[]
+        # for i in ls:
+        #     oglist[0]=oglist[0] + i
+        #     oglist[1]=oglist[1] - i
+        #     oglist[2]=oglist[2] - i/10
+        #     oglist[3]=oglist[3] + i*10
+        #     data = np.array([oglist])
+        #     prediction = RF.predict(data)
+        #     a.append(prediction)
     context = {
         'resultvalue':resultvalue,
         'temperature':temperature,
@@ -221,10 +225,15 @@ def index(request):
                     'Tomato__Target_Spot', 'Tomato__Tomato_YellowLeaf__Curl_Virus',
                     'Tomato__Tomato_mosaic_virus', 'Tomato_healthy']
 
-        result = list(result)
-
-        pos = result.index(max(result))
-
+        # result = list(result)
+        # print(result)
+        # print("rrrrrrrrrrrrrrr")
+        # print(result.max())
+        # print("rrrrrrrrrrrrrrr")
+        # pos = result.index(result.max())
+        pos = result.argmax()
+        print(result)
+        print(pos)
         print(diseases[pos])
         result=diseases[pos]
     context = {
